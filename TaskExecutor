@@ -1,0 +1,5 @@
+public interface TaskExecutor {
+    void execute(Runnable command);
+    
+    public void execute();
+}

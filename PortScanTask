@@ -1,0 +1,40 @@
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.io.IOException;
+import java.net.InetSocketAddress;
+import java.net.Socket;
+
+
+public class PortScanTask {
+    public static void main(String[] args) {
+    
+        int portInicio = 1;
+        int portFinal = 1024;
+        int threadCount = 50;
+        String host = "8.8.8.8";
+
+        ExecutorService executor =
+            Executors.newFixedThreadPool(threadCount);
+
+
+        
+        for(int port = portInicio; port <= portFinal; port++) {
+            final int currentPort = port;
+            executor.execute(() -> scanPort(host, currentPort));
+
+        }
+    }
+
+
+        private static void scanPort(String host, int port) {
+            try(Socket socket = new Socket()) {
+                socket.connect(new InetSocketAddress(host,port), 300);
+                System.out.println("port is open: "+port);
+        }
+        catch (IOException e){
+         //error   
+        }
+    }
+        
+}
+
